@@ -1,0 +1,13 @@
+.build/
+.native-build/
+.native-runs/
+.state/
+vendor/
+__pycache__/
+*.pyc
+.native-ui-build/
+
+.vs/
+out/
+.review-build/
+CMakeUserPresets.json

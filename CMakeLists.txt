@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.24)
+project(SacredPlayground LANGUAGES CXX)
+
+if(NOT WIN32)
+    message(FATAL_ERROR "The desktop frontend currently targets Windows.")
+endif()
+
+include(CTest)
+if(BUILD_TESTING)
+    add_test(NAME playground COMMAND sacred-playground --self-test)
+    set_tests_properties(playground PROPERTIES TIMEOUT 60)
+endif()
+
+add_executable(sacred-playground WIN32 native/main.cpp native/runner.cpp native/syntax.cpp)
+target_compile_features(sacred-playground PRIVATE cxx_std_20)
+target_compile_definitions(sacred-playground PRIVATE UNICODE _UNICODE NOMINMAX WIN32_LEAN_AND_MEAN)
+target_link_libraries(sacred-playground PRIVATE comctl32 comdlg32 dwmapi shell32)
+if(MSVC)
+    target_compile_options(sacred-playground PRIVATE /W4 /permissive- /utf-8)
+endif()
